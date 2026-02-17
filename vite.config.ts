@@ -11,6 +11,7 @@ export default defineConfig(({ mode }) => ({
     hmr: {
       overlay: false,
     },
+    allowedHosts: ['ramadan-companion-y39j.onrender.com']
   },
   plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
   resolve: {
