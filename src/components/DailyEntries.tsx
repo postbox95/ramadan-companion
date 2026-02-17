@@ -8,6 +8,13 @@ interface Props {
   onSave: (field: string, value: string) => void;
 }
 
+const suggestions: Record<string, string[]> = {
+  reflection: ['Grateful for family', 'Felt peace during prayer', 'Learned something new today', 'Helped someone in need'],
+  suhoor_plan: ['Oatmeal & dates', 'Eggs & toast', 'Smoothie & granola', 'Yogurt & fruit'],
+  iftar_plan: ['Dates & soup', 'Rice & chicken', 'Samosas & salad', 'Pasta & vegetables'],
+  notes: [],
+};
+
 const fields = [
   { key: 'reflection', label: 'Daily Reflection', icon: Sparkles, placeholder: 'What are you grateful for today?' },
   { key: 'suhoor_plan', label: 'Suhoor Plan', icon: UtensilsCrossed, placeholder: 'What will you eat for suhoor?' },
@@ -35,6 +42,23 @@ export default function DailyEntries({ entry, onSave }: Props) {
               rows={3}
               className="resize-none border-primary/10 focus:border-primary/30"
             />
+            {suggestions[key]?.length > 0 && (
+              <div className="flex flex-wrap gap-1.5 mt-2">
+                {suggestions[key].map(s => (
+                  <button
+                    key={s}
+                    type="button"
+                    onClick={() => {
+                      const current = entry[key as keyof typeof entry];
+                      onSave(key, current ? `${current}\n${s}` : s);
+                    }}
+                    className="text-xs px-2.5 py-1 rounded-full border border-primary/20 bg-primary/5 text-primary hover:bg-primary/10 transition-colors"
+                  >
+                    {s}
+                  </button>
+                ))}
+              </div>
+            )}
           </CardContent>
         </Card>
       ))}
