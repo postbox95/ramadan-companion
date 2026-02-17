@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Plus, Trash2, GripVertical, Check } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
+const checklistSuggestions = ['Read Quran', 'Give charity', 'Make dua for others', 'Pray on time', 'Dhikr after salah', 'Help with iftar'];
+
 interface Props {
   items: any[];
   completions: Record<string, boolean>;
@@ -90,6 +92,20 @@ export default function Checklist({ items, completions, onAdd, onDelete, onToggl
           {items.length === 0 && (
             <p className="text-sm text-muted-foreground text-center py-4">Add items to track your daily goals</p>
           )}
+          <div className="flex flex-wrap gap-1.5 pt-1">
+            {checklistSuggestions
+              .filter(s => !items.some((i: any) => i.title === s))
+              .map(s => (
+                <button
+                  key={s}
+                  type="button"
+                  onClick={() => onAdd(s)}
+                  className="text-xs px-2.5 py-1 rounded-full border border-primary/20 bg-primary/5 text-primary hover:bg-primary/10 transition-colors"
+                >
+                  + {s}
+                </button>
+              ))}
+          </div>
         </CardContent>
       </Card>
     </motion.div>
